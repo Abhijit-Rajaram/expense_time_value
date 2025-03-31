@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+
+    <title>Expense Tracker</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/templatemo-hexashop.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/owl-carousel.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/lightbox.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/datatables.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/jquery.dataTables.min.css' %}">
+</head>
+
+<body>
+
+    {% block content %}
+
+
+    {% endblock %}
+
+</body>
+
+<script type="text/javascript" src="{% static 'js/jquery-3.1.7.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/jquery.counterup.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/datepicker.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/swal.js' %}"></script>
+{% comment %}
+<script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+{% endcomment %}
+
+</html>

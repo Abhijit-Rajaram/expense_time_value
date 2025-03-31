@@ -1,0 +1,152 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="m-5">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center">Expenses</h2>
+            <table class="table table-bordered" id="expense-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Time Value (in minutes)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.date }}</td>
+                        <td>{{ expense.description }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>{{ expense.time_value_in_hours }} ( {{ expense.time_value }} minutes )</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No expenses found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <div class="input-group-append" data-toggle="modal" data-target="#addMonthModal">
+                <span class="input-group-text w-25" id="basic-addon2"><i class="fa fa-plus"></i></span>
+            </div>
+            <h2 class="text-center">Add Expense</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form method="POST" action="{% url 'expense_form' %}">
+                        {% csrf_token %}
+                        <!-- Expense Date -->
+                        <div class="form-group">
+                            <label for="date">Date:</label>
+                            <input type="date" id="date" name="date" class="form-control" required>
+                        </div>
+                        <!-- Expense Description -->
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <input type="text" id="description" name="description" class="form-control" required
+                                placeholder="Enter expense description">
+                        </div>
+
+                        <!-- Expense Amount -->
+                        <div class="form-group">
+                            <label for="amount">Amount (in INR):</label>
+                            <input type="number" id="amount" name="amount" class="form-control" required
+                                placeholder="Enter amount" step="0.01" min="0">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Submit Expense</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!-- Modal for adding new month -->
+<div class="modal fade" id="addMonthModal" tabindex="-1" role="dialog" aria-labelledby="addMonthModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMonthModalLabel">Add New Month and Salary</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'add_month' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="new_month">Month:</label>
+                        <input type="month" id="new_month" name="new_month" class="form-control" required
+                            placeholder="Enter new month (e.g., January)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="monthly_salary">Monthly Salary (in INR):</label>
+                        <input type="number" id="monthly_salary" name="monthly_salary" class="form-control" required
+                            placeholder="Enter monthly salary" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-10">
+                                <label for="working_hour">Working Hours per Day (in HOURS):</label>
+                                <input type="range" name="working_hour" id="working_hour_input" class="form-range"
+                                    min="0" max="12" id="customRange2">
+                            </div>
+                            <div class="col-2" id="working_hour"></div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">Add Month</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+<div class="alert alert-danger mt-3 w-25">
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<script type="text/javascript" src="{% static 'js/jquery-3.1.7.min.js' %}"></script>
+<script type="text/javascript" src="{%  static 'js\datatables.min.js' %}"></script>
+<script>
+    // Get the slider input and the element to display the value
+    const workinHourInput = document.getElementById('working_hour_input');
+    const workinHourDisplay = document.getElementById('working_hour');
+
+    // Function to update the displayed value as the slider changes
+    workinHourInput.addEventListener('input', function () {
+        workinHourDisplay.textContent = workinHourInput.value;
+    });
+
+    // Optional: Update the display when the page loads to match the default value
+    workinHourDisplay.textContent = workinHourInput.value;
+</script>
+<script>
+    $('#expense-table').DataTable({
+        "lengthMenu": [[5, 10, 20, 50, -1], [5, 10, 20, 50, "All"]],
+        // columnDefs: [
+        //     { orderable: false, targets: -1 },
+        //     { orderable: false, targets: -2 },
+
+        //     { searchable: false, targets: -1 },
+        //     { searchable: false, targets: -2 },
+        // ]
+    });
+</script>
+{% endblock %}
