@@ -70,7 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'expense_calculator.wsgi.application'
-
+ALLOWED_HOSTS = ['*']
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
